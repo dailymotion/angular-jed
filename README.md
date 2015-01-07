@@ -1,6 +1,6 @@
 # Angular-Jed
 
-Angular wrapper for [Jed](http://slexaxton.github.io/Jed/) "Gettext Style i18n for Modern JavaScript Apps".
+Angular wrapper for [Jed](http://slexaxton.github.io/Jed/).
 
 Check out the gh-pages branch to see a working example.
 
@@ -25,30 +25,32 @@ or
 
 The service provides a `loadPage` method to load a page translation file. The method returns a promise to make sure the translations methods can be used safely.
 
-    angular.module('myApp').controller 'Video', [
-        '$scope'
-        'i18n'
-    ]
-    ($scope, i18n) ->
-        i18n.loadPage('video').then ->
-            $scope.translatedText = i18n._('This text will be translated')
+    angular.module('myApp').controller('Video', [
+      '$scope'
+      'i18n'
+    ], function($scope, i18n) {
+      i18n.loadPage('video').then(function() {
+        $scope.translatedText = i18n._('This text will be translated');
+      });
+    });
 
 ### Common translations
 
 You can load common translations (eg. for directives) which will add to the current translations loaded. Returns a promise.
 
-    angular.module('myApp').directive 'footer', [
-        'i18n'
-    ]
-    (i18n) ->
-        i18n.loadCommon('footer').then ->
-            message = i18n._('This text will be translated')
+    angular.module('myApp').directive('footer', [
+      'i18n'
+    ], function(i18n) {
+      i18n.loadCommon('footer').then(function() {
+        message = i18n._('This text will be translated');
+      });
+    });
 
 ### Setting the language
 
 Wherever the `i18n` service is loaded you can simply set the language:
 
-    i18n.setLang 'fr_FR'
+    i18n.setLang('fr_FR');
 
 The language is stored in local storage. Changing it will provoke a page re-load.
 
@@ -95,7 +97,7 @@ Attributes:
 ## Translation files
 
 The files MUST be named with the name of the page or directive and the language: `name-fr_FR.json`.
-For example calling `i18n.loadPage 'video'` will load the file `video-fr_FR` (or whatever language the site is in).
+For example calling `i18n.loadPage('video')` will load the file `video-fr_FR` (or whatever language the site is in).
 
 The translations files are cached so they won't be loaded twice. The cache is only a js variable so it just lives during the angular app life.
 
