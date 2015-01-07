@@ -154,7 +154,6 @@
               result = i18n._ $scope.none
             else
               result = i18n._n $scope.singular, $scope.plural, count
-            console.log $scope.singular
             $scope.result = _.template(result, placeholders)
 
           watchObjects = ['count']
