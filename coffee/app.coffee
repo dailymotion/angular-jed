@@ -20,7 +20,7 @@ app.config([
   '$rootScope'
   'i18n'
   ($rootScope, i18n) ->
-    i18n.setTranslationPath '/translations'
+    i18n.setTranslationPath 'translations'
 
     $rootScope.languages = [
       {
