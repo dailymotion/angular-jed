@@ -1,0 +1,27 @@
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+msgid "Text translated from the view"
+msgstr ""
+
+msgid "Text translated from the controller"
+msgstr ""
+
+msgid "Singular key without variable"
+msgid_plural "Plural key without variable"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid "Singular key with variable %name%"
+msgid_plural "Plural key with variable %name%"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid "There is one %obj%"
+msgid_plural "There are %number% %objs%"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""

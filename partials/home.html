@@ -1,0 +1,15 @@
+<div class="col-lg-12">
+    <h1>Angular Jed</h1>
+    <p>
+        <a href="/#/other">Other page</a>
+    </p>
+    <p>{{ title }}</p>
+    <p>{{ _('Text translated from the view') }}</p>
+    <hr>
+    <p><input type="text" ng-model="simplePlural"></p>
+    <p><trans singular="Singular key without variable" plural="Plural key without variable" count="simplePlural" placeholders="{name: 'Romain'}"></trans></p>
+    <p><trans singular="Singular key with variable %name%" plural="Plural key with variable %name%" count="simplePlural" placeholders="{name: 'Romain'}"></trans></p>
+    <hr>
+    <p><input type="text" ng-model="nbr"> <input type="text" ng-model="object"> <input type="text" ng-model="objects"></p>
+    <p><trans singular="There is one %obj%" plural="There are %number% %objs%" none="No %objs%" count="nbr" placeholders="{number: nbr, obj: object, objs: objects}"></trans></p>
+</div>
