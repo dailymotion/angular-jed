@@ -149,6 +149,7 @@
           render = (count, placeholders) ->
             _count = count
             _placeholders = placeholders
+            return unless ready
             if $scope.count.toString() == '0' and $scope.none
               result = i18n._ $scope.none
             else
@@ -164,7 +165,7 @@
             if typeof parseInt($scope.count) != 'number' or $scope.count == ''
               return
 
-            ready && render($scope.count, $scope.placeholders)
+            render($scope.count, $scope.placeholders)
           )
       )
   ]
