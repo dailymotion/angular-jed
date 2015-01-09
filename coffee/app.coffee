@@ -18,9 +18,16 @@ app.config([
 ])
 .run([
   '$rootScope'
+  '$window'
   'i18n'
-  ($rootScope, i18n) ->
+  ($rootScope, $window, i18n) ->
+    defaultLang = 'en_US'
+    getLang = ->
+      if store.get('lang') then store.get('lang') else defaultLang
+
     i18n.setTranslationPath 'translations'
+      .setDefaultLang defaultLang
+      .setLang getLang()
 
     $rootScope.languages = [
       {
@@ -34,10 +41,11 @@ app.config([
     ]
 
     $rootScope.changeLang = (value) ->
-      i18n.setLang value
+      store.set 'lang', value
+      $window.location.reload()
 
-    $rootScope.isLang = (value) ->
-      i18n.getLang() == value
+    $rootScope.currentLang = ->
+      getLang()
 ])
 
 app.controller('HomeController', [

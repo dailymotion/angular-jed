@@ -10,7 +10,7 @@
             <div ng-view></div>
             <div>
                 <p ng-repeat="lang in languages">
-                    <button class="btn btn-default" ng-class="{'btn-primary': isLang(lang.value)}" ng-click="changeLang(lang.value)">{{ lang.name }}</button>
+                    <button class="btn btn-default" ng-class="{'btn-primary': currentLang() == lang.value}" ng-click="changeLang(lang.value)">{{ lang.name }}</button>
                 </p>
             </div>
         </div>

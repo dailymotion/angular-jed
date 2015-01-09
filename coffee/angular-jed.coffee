@@ -2,6 +2,7 @@
   'use strict'
 
   defaultLang = 'en_US'
+  lang = defaultLang
   i18n = false
   translationsPath = false
   pageDatas = false
@@ -19,12 +20,8 @@
     '$http'
     '$rootScope'
     '$q'
-    '$window'
-    '$cookies'
-    ($http, $rootScope, $q, $window, $cookies) ->
+    ($http, $rootScope, $q) ->
       readyDeferred = $q.defer()
-      getLang = ->
-        if store.get('lang') then store.get('lang') else defaultLang
 
       # Get a translation file from cache or ajax
       get = (file) ->
@@ -57,13 +54,18 @@
       jed =
         setTranslationPath: (path) ->
           translationsPath = path
+          jed
+
+        setLang: (value) ->
+          lang = value
+          jed
 
         setDefaultLang: (lang) ->
           defaultLang = lang
+          jed
 
         # Load common translations
         loadCommon: (common) ->
-          lang = getLang()
           deferred = $q.defer()
           get("#{common}-#{lang}.json").then((data) ->
             # not sure this is needed tho
@@ -83,7 +85,6 @@
 
         # Load page translation
         loadPage: (page) ->
-          lang = getLang()
           deferred = $q.defer()
           get("#{page}-#{lang}.json").then((data) ->
             data.locale_data.messages = extend data.locale_data.messages, commonDatas
@@ -95,7 +96,6 @@
             if lang == defaultLang
               setI18N()
             else
-              store.set 'lang', defaultLang
               jed.loadPage(page)
             readyDeferred.resolve()
             deferred.resolve()
@@ -110,14 +110,6 @@
             i18n.ngettext singular_key, plural_key, value
           else
             if value == 1 then singular_key else plural_key
-
-        setLang: (lang) ->
-          store.set 'lang', lang
-          $cookies.lang = lang
-          $window.location.reload()
-
-        getLang: ->
-          getLang()
 
         ready: ->
           readyDeferred.promise
