@@ -2,6 +2,7 @@
   'use strict'
 
   defaultLang = 'en_US'
+  lang = defaultLang
   i18n = false
   translationsPath = false
   pageDatas = false
@@ -128,8 +129,7 @@
           placeholders: '='
         template: '<span>{{ result }}</span>'
         controller: ($scope, $element) ->
-          ready = false
-          _.templateSettings.interpolate = /%([\s\S]+?)%/g;
+          ready = false;
           _placeholders = {}
           _count = 0
 
@@ -141,11 +141,14 @@
             _count = count
             _placeholders = placeholders
             return unless ready
+            return unless Object.keys($scope.placeholders).length
             if $scope.count.toString() == '0' and $scope.none
               result = i18n._ $scope.none
             else
               result = i18n._n $scope.singular, $scope.plural, count
-            $scope.result = _.template(result, placeholders)
+            $scope.result = _.template(result, placeholders,
+              interpolate: /%([\s\S]+?)%/g
+            )
 
           watchObjects = ['count']
 
