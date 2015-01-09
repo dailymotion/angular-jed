@@ -16,9 +16,12 @@ or
 
 ### Configuration
 
+When running your app it's on you to set the language and the path to the translations files.
+
     angular.module('myApp', ['jed'])
       .run(['i18n'], function(i18n) {
-        i18n.setTranslationPath('/path/to/translations');
+        i18n.setTranslationPath('/path/to/translations')
+          .setLang('fr_FR');
       });
 
 ### Controllers
@@ -45,14 +48,6 @@ You can load common translations (eg. for directives) which will add to the curr
         message = i18n._('This text will be translated');
       });
     });
-
-### Setting the language
-
-Wherever the `i18n` service is loaded you can simply set the language:
-
-    i18n.setLang('fr_FR');
-
-The language is stored in local storage. Changing it will provoke a page re-load.
 
 ### Translations
 
