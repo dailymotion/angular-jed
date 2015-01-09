@@ -1,51 +1,37 @@
 'use strict'
 
-app = angular.module 'app', ['ngRoute', 'ngCookies', 'jed']
+app = angular.module 'app', [
+  'ngRoute'
+  'ngCookies'
+  'jed'
+]
 
 app.config([
-  '$routeProvider',
+  '$routeProvider'
   '$locationProvider'
   ($routeProvider, $locationProvider) ->
     $routeProvider
       .when '/home',
         templateUrl: 'partials/home.html'
         controller: 'HomeController'
-      .when '/other',
-        templateUrl: 'partials/other.html'
-        controller: 'OtherController'
       .otherwise
         redirectTo: '/home'
 ])
 .run([
   '$rootScope'
-  '$window'
   'i18n'
-  ($rootScope, $window, i18n) ->
+  ($rootScope, i18n) ->
     defaultLang = 'en_US'
-    getLang = ->
+    $rootScope.getLang = ->
       if store.get('lang') then store.get('lang') else defaultLang
 
     i18n.setTranslationPath 'translations'
       .setDefaultLang defaultLang
-      .setLang getLang()
+      .setLang $rootScope.getLang()
 
-    $rootScope.languages = [
-      {
-        name: 'English'
-        value: 'en_US'
-      }
-      {
-        name: 'French'
-        value: 'fr_FR'
-      }
-    ]
+    $rootScope.$on '$viewContentLoaded', Prism.highlightAll
 
-    $rootScope.changeLang = (value) ->
-      store.set 'lang', value
-      $window.location.reload()
-
-    $rootScope.currentLang = ->
-      getLang()
+    $rootScope.githubLink = 'https://github.com/romainberger/angular-jed'
 ])
 
 app.controller('HomeController', [
@@ -61,8 +47,30 @@ app.controller('HomeController', [
     $scope.simplePlural = 2
 ])
 
-app.controller('OtherController', [
-  'i18n'
-  (i18n) ->
-    i18n.loadPage 'other'
-])
+app.directive 'language', ->
+  return (
+    restrict: 'E'
+    template: '<div>
+                <span ng-repeat="lang in languages">
+                  <button class="btn btn-default" ng-class="{\'btn-primary\': currentLang() == lang.value}" ng-click="changeLang(lang.value)">{{ lang.name }}</button>
+                </span>
+              </div>'
+    controller: ($scope, $rootScope, $window, i18n) ->
+      $scope.languages = [
+        {
+          name: 'English'
+          value: 'en_US'
+        }
+        {
+          name: 'French'
+          value: 'fr_FR'
+        }
+      ]
+
+      $scope.changeLang = (value) ->
+        store.set 'lang', value
+        $window.location.reload()
+
+      $scope.currentLang = ->
+        $rootScope.getLang()
+  )

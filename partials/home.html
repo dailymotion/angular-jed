@@ -1,15 +1,85 @@
-<div class="col-lg-12">
-    <h1>Angular Jed</h1>
-    <p>
-        <a href="/#/other">Other page</a>
-    </p>
-    <p>{{ title }}</p>
-    <p>{{ _('Text translated from the view') }}</p>
-    <hr>
-    <p><input type="text" ng-model="simplePlural"></p>
-    <p><trans singular="Singular key without variable" plural="Plural key without variable" count="simplePlural" placeholders="{name: 'Romain'}"></trans></p>
-    <p><trans singular="Singular key with variable %name%" plural="Plural key with variable %name%" count="simplePlural" placeholders="{name: 'Romain'}"></trans></p>
-    <hr>
-    <p><input type="text" ng-model="nbr"> <input type="text" ng-model="object"> <input type="text" ng-model="objects"></p>
-    <p><trans singular="There is one %obj%" plural="There are %number% %objs%" none="No %objs%" count="nbr" placeholders="{number: nbr, obj: object, objs: objects}"></trans></p>
+<div class="page-header">
+    <div class="row">
+        <div class="col-lg-9">
+            <h1>Angular Jed</h1>
+        </div>
+        <div class="col-lg-3">
+            <language></language>
+            <h3>
+                <a href="{{ githubLink }}">View on Github</a>
+            </h3>
+        </div>
+    </div>
 </div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2>Angular wrapper for <a href="http://slexaxton.github.io/Jed/">Jed</a></h2>
+        <h4>See the <a href="{{ githubLink }}">Github page</a> for the complete documentation</h4>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Translations in controllers</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-5">
+        <p>{{ title }}</p>
+    </div>
+    <div class="col-lg-7">
+        <pre class="language-javascript"><code class="language-javascript">// controller
+app.controller('HomeController', [
+  '$scope', 'i18n', function($scope, i18n) {
+    // load a page translation
+    i18n.loadPage('home').then(function() {
+      $scope.title = i18n._('Text translated from the controller');
+    });
+]);</code></pre>
+        <pre class="language-markup"><code class="language-markup">&lt;!-- template --&gt;
+&lt;p&gt;{{ title }}&lt;/p&gt;</code></pre>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Translations in templates</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-5">
+        <p>{{ _('Text translated from the view') }}</p>
+        <p>{{ _n('Singular key without variable', 'Plural key without variable', 2) }}</p>
+    </div>
+    <div class="col-lg-7">
+        <pre class="language-markup"><code class="language-markup">&lt;p&gt;{{ _('Text translated from the view') }}&lt;/p&gt;
+&lt;p&gt;{{ _n('Singular key without variable', 'Plural key without variable', 2) }}&lt;/p&gt;</code></pre>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Trans directive for complexe plural</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <p><input type="text" ng-model="nbr"> <input type="text" ng-model="object"> <input type="text" ng-model="objects"></p>
+        <p><trans singular="There is one %obj%" plural="There are %number% %objs%" none="No %objs%" count="nbr" placeholders="{number: nbr, obj: object, objs: objects}"></trans></p>
+    </div>
+    <div class="col-lg-12">
+        <pre class="language-markup"><code class="language-markup">
+&lt;p&gt;
+    &lt;input type="text" ng-model="nbr"&gt; &lt;input type="text" ng-model="object"&gt; &lt;input type="text" ng-model="objects"&gt;
+&lt;/p&gt;
+&lt;p&gt;
+    &lt;trans singular="There is one %obj%" plural="There are %number% %objs%" none="No %objs%" count="nbr" placeholders="{number: nbr, obj: object, objs: objects}"&gt;&lt;/trans&gt;
+&lt;/p&gt;
+        </code></pre>
+    </div>
+</div>
+<hr>
