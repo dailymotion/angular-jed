@@ -159,7 +159,7 @@
             _placeholders = placeholders
             return unless ready
             return unless Object.keys($scope.placeholders).length
-            $scope.result = i18n._n($scope.singular, $scope.plural, $scope.count, $scope.placeholders, $scope.nonenone)
+            $scope.result = i18n._n($scope.singular, $scope.plural, $scope.count, $scope.placeholders, $scope.none)
 
           watchObjects = ['count']
 
