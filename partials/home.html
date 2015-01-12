@@ -6,7 +6,7 @@
         <div class="col-lg-3">
             <language></language>
             <h3>
-                <a href="{{ githubLink }}">View on Github</a>
+                <a href="{{ githubLink }}">{{ 'View on Github' }}</a>
             </h3>
         </div>
     </div>
@@ -16,6 +16,7 @@
     <div class="col-lg-12">
         <h2>Angular wrapper for <a href="http://slexaxton.github.io/Jed/">Jed</a></h2>
         <h4>See the <a href="{{ githubLink }}">Github page</a> for the complete documentation</h4>
+        <p>The module provides a filter and a directive for all kinds of translations.</p>
     </div>
 </div>
 <hr>
@@ -51,33 +52,36 @@ app.controller('HomeController', [
 </div>
 <div class="row">
     <div class="col-lg-5">
-        <p>{{ _('Text translated from the view') }}</p>
-        <p>{{ _n('Singular key without variable', 'Plural key without variable', 2) }}</p>
+        <p>{{ 'Text translated from the view'|trans }}</p>
+        <p>{{ '%user% has %count% apple'|trans:{plural: '%user% has %count% apples', none: "%user% doesn't have any apples", count: nbr, placeholders: {user: 'Michael jackson'} } }}</p>
+        <p>{{ '%user% is the king of the pop'|trans:{placeholders: {user: 'Michael jackson'} } }}</p>
     </div>
+
     <div class="col-lg-7">
-        <pre class="language-markup"><code class="language-markup">&lt;p&gt;{{ _('Text translated from the view') }}&lt;/p&gt;
-&lt;p&gt;{{ _n('Singular key without variable', 'Plural key without variable', 2) }}&lt;/p&gt;</code></pre>
+        <pre class="language-markup"><code class="language-markup">&lt;p&gt;{{ 'Text translated from the view'|trans }}&lt;/p&gt;
+&lt;p&gt;{{ '%user% has %count% apple'|trans:{plural: '%user% has %count% apples', none: "%user% doesn't have any apples", count: nbr, placeholders: {user: 'Michael jackson'} } }}&lt;/p&gt;
+&lt;p&gt;{{ '%user% is the king of the pop'|trans:{placeholders: {user: 'Michael jackson'} } }}&lt;/p&gt;</code></pre>
     </div>
 </div>
 <hr>
 
 <div class="row">
     <div class="col-lg-12">
-        <h3>Trans directive for complexe plural</h3>
+        <h3>Trans directive</h3>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-12">
-        <p><input type="text" ng-model="nbr"> <input type="text" ng-model="object"> <input type="text" ng-model="objects"></p>
-        <p><trans singular="There is one %obj%" plural="There are %number% %objs%" none="No %objs%" count="nbr" placeholders="{number: nbr, obj: object, objs: objects}"></trans></p>
+        <p><input type="text" ng-model="nbr"></p>
+        <p><trans singular="%user% has %count% apple" plural="%user% has %count% apples" none="%user% doesn\'nt have any apples" count="nbr" placeholders="{user: 'Michael jackson'}"></trans></p>
     </div>
     <div class="col-lg-12">
         <pre class="language-markup"><code class="language-markup">
 &lt;p&gt;
-    &lt;input type="text" ng-model="nbr"&gt; &lt;input type="text" ng-model="object"&gt; &lt;input type="text" ng-model="objects"&gt;
+    &lt;input type="text" ng-model="nbr"&gt;
 &lt;/p&gt;
 &lt;p&gt;
-    &lt;trans singular="There is one %obj%" plural="There are %number% %objs%" none="No %objs%" count="nbr" placeholders="{number: nbr, obj: object, objs: objects}"&gt;&lt;/trans&gt;
+    &lt;trans singular="%user% has %count% apple" plural="%user% has %count% apples" none="%user% doesn\'nt have any apples" count="nbr" placeholders="{user: 'Michael jackson'}"&gt;&lt;/trans&gt;
 &lt;/p&gt;
         </code></pre>
     </div>

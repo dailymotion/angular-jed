@@ -42,9 +42,6 @@ app.controller('HomeController', [
       $scope.title = i18n._ 'Text translated from the controller'
 
     $scope.nbr = 10
-    $scope.object = 'object'
-    $scope.objects = 'objects'
-    $scope.simplePlural = 2
 ])
 
 app.directive 'language', ->
