@@ -51,31 +51,27 @@ You can load common translations (eg. for directives) which will add to the curr
 
 ### Translations
 
-### Simple translation
+### Filter
 
-You can use the different methods to translate in js files: `i18n._`, `i18n._n`.
-In the views, the translation methods are attached to the `$rootScope` so you can use them directly:
+In the views you can use the `trans` filter:
 
-    <h1>{{ _('Translated title here') }}</h1>
-    <h2>{{ _n('There is one cat', 'There are several cats', nbrOfCats) }}</h2>
+    <h1>{{ 'Translated title here'|trans }}</h1>
+    <h2>{{ 'There is one cat'|trans:{plural: 'There are several cats', count: nbrOfCats, none: 'There are no cats'} }}</h2>
 
-and in directives:
+Options:
+* `singular` Singular text
+* `plural` Plural text
+* `none` (optionnal) Text to display when `count` is 0
+* `count`
+* `placeholders` objects containing the variables to interpolate. The count is automatically added.
 
-    <p>{{ $root._('Directive text here') }}</p>
-
-### Pluralization
+### Directive
 
 A `trans` directive is available for more complex plural:
 
     <trans singular="There is one %obj%" plural="There are %number% %objs%" none="No %objs%" count="nbr" placeholders="{number: nbr, obj: object, objs: objects}"></trans>
 
-Attributes:
-* `singular` Singular text
-* `plural` Plural text
-* `none` (optionnal) Text to display when `count` is 0
-* `count`
-* `placeholders` objects containing the variables to interpolate
-
+The attributes are the same as the options for the filter.
 
 ## API
 
