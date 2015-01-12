@@ -150,21 +150,24 @@
           _placeholders = {}
           _count = 0
 
+          $scope.placeholders ?= {}
+
           i18n.ready().then ->
             ready = true
             render(_count, _placeholders)
 
-          render = (count, placeholders) ->
+          render = (count, placeholders = {}) ->
             _count = count
             _placeholders = placeholders
             return unless ready
-            return unless Object.keys($scope.placeholders).length
-            $scope.result = i18n._n($scope.singular, $scope.plural, $scope.count, $scope.placeholders, $scope.none)
+            return unless Object.keys(placeholders).length
+            $scope.result = i18n._n($scope.singular, $scope.plural, count, $scope.placeholders, $scope.none)
 
           watchObjects = ['count']
 
-          for key, name of Object.keys($scope.placeholders)
-            watchObjects.push "placeholders.#{name}"
+          if Object.keys($scope.placeholders).length
+            for key, name of Object.keys($scope.placeholders)
+              watchObjects.push "placeholders.#{name}"
 
           $scope.$watchGroup(watchObjects, ->
             if typeof parseInt($scope.count) != 'number' or $scope.count == ''

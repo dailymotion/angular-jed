@@ -39,10 +39,10 @@ app.controller('HomeController', [
   'i18n'
   ($scope, i18n) ->
     i18n.loadPage('home').then ->
-      $scope.title = i18n._ 'Text translated from the controller'
+      $scope.title = i18n._ '%user% is the king of the pop', {user: $scope.username}
 
     $scope.nbr = 10
-    $scope.user = 'Michael Jackson'
+    $scope.username = 'Michael Jackson'
 ])
 
 app.directive 'language', ->

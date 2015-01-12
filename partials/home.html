@@ -36,7 +36,7 @@ app.controller('HomeController', [
   '$scope', 'i18n', function($scope, i18n) {
     // load a page translation
     i18n.loadPage('home').then(function() {
-      $scope.title = i18n._('Text translated from the controller');
+      $scope.title = i18n._('%user% is the king of the pop', {user: $scope.user});
     });
 ]);</code></pre>
         <pre class="language-markup"><code class="language-markup">&lt;!-- template --&gt;
@@ -52,15 +52,17 @@ app.controller('HomeController', [
 </div>
 <div class="row">
     <div class="col-lg-5">
+        <p><input type="text" ng-model="nbr" placeholder="Enter a number of apple"></p>
+        <p><input type="text" ng-model="username" placeholder="Enter a user name"></p>
         <p>{{ 'Text translated from the view'|trans }}</p>
-        <p>{{ '%user% has %count% apple'|trans:{plural: '%user% has %count% apples', none: "%user% doesn't have any apples", count: nbr, placeholders: {user: user} } }}</p>
-        <p>{{ '%user% is the king of the pop'|trans:{placeholders: {user: user} } }}</p>
+        <p>{{ '%user% has %count% apple'|trans:{plural: '%user% has %count% apples', none: "%user% doesn't have any apples", count: nbr, placeholders: {user: username} } }}</p>
+        <p>{{ '%user% is the king of the pop'|trans:{placeholders: {user: username} } }}</p>
     </div>
 
     <div class="col-lg-7">
-        <pre class="language-markup"><code class="language-markup">&lt;p&gt;{{ 'Text translated from the view'|trans }}&lt;/p&gt;
-&lt;p&gt;{{ '%user% has %count% apple'|trans:{plural: '%user% has %count% apples', none: "%user% doesn't have any apples", count: nbr, placeholders: {user: user} } }}&lt;/p&gt;
-&lt;p&gt;{{ '%user% is the king of the pop'|trans:{placeholders: {user: user} } }}&lt;/p&gt;</code></pre>
+        <pre class="language-markup"><code class="language-markup">{{ 'Text translated from the view'|trans }}
+{{ '%user% has %count% apple'|trans:{plural: '%user% has %count% apples', none: "%user% doesn't have any apples", count: nbr, placeholders: {user: username} } }}
+{{ '%user% is the king of the pop'|trans:{placeholders: {user: username} } }}</code></pre>
     </div>
 </div>
 <hr>
@@ -71,20 +73,24 @@ app.controller('HomeController', [
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
-        <p><input type="text" ng-model="nbr"></p>
-        <p><input type="text" ng-model="user"></p>
-        <p><trans singular="%user% has %count% apple" plural="%user% has %count% apples" none="%user% doesn't have any apples" count="nbr" placeholders="{user: user}"></trans></p>
+    <div class="col-lg-5">
+        <p><input type="text" ng-model="nbr" placeholder="Enter a number of apple"></p>
+        <p><input type="text" ng-model="username" placeholder="Enter a user name"></p>
+        <p><trans singular="%user% has %count% apple"
+                  plural="%user% has %count% apples"
+                  none="%user% doesn't have any apples"
+                  count="nbr"
+                  placeholders="{user: username}">
+        </trans></p>
     </div>
-    <div class="col-lg-12">
-        <pre class="language-markup"><code class="language-markup">
-&lt;p&gt;
-    &lt;input type="text" ng-model="nbr"&gt;
-&lt;/p&gt;
-&lt;p&gt;
-    &lt;trans singular="%user% has %count% apple" plural="%user% has %count% apples" none="%user% doesn't have any apples" count="nbr" placeholders="{user: user}"&gt;&lt;/trans&gt;
-&lt;/p&gt;
-        </code></pre>
+    <div class="col-lg-7">
+        <pre class="language-markup"><code class="language-markup">&lt;input type="text" ng-model="nbr"&gt;
+&lt;input type="text" ng-model="username"&gt;
+&lt;trans singular="%user% has %count% apple"
+       plural="%user% has %count% apples"
+       none="%user% doesn't have any apples"
+       count="nbr"
+       placeholders="{user: username}"&gt;
+&lt;/trans&gt;</code></pre>
     </div>
 </div>
-<hr>
