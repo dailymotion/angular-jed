@@ -14,6 +14,15 @@
       object[key] = val
     object
 
+  gettext = (key) ->
+    if i18n then i18n.gettext(key) else key
+
+  ngettext = (singular_key, plural_key, value) ->
+    if i18n
+      i18n.ngettext singular_key, plural_key, value
+    else
+      if value == 1 then singular_key else plural_key
+
   angular.module 'jed', []
 
   angular.module('jed').factory 'i18n', [
@@ -47,8 +56,8 @@
         $rootScope._ = (key) ->
           jed._(key)
 
-        $rootScope._n = (singular_key, plural_key, value) ->
-          jed._n(singular_key, plural_key, value)
+        $rootScope._n = (singular_key, plural_key, value, placeholders, none) ->
+          jed._n(singular_key, plural_key, value, placeholders, none)
 
       # Public API
       jed =
@@ -102,14 +111,22 @@
           )
           deferred.promise
 
-        _: (key) ->
-          if i18n then i18n.gettext(key) else key
+        _: (key, placeholders = {}) ->
+          result = gettext(key)
+          _.template(result, placeholders,
+            interpolate: /%([\s\S]+?)%/g
+          )
 
-        _n: (singular_key, plural_key, value) ->
-          if i18n
-            i18n.ngettext singular_key, plural_key, value
+        _n: (singular, plural, count, placeholders = {}, none) ->
+          placeholders.count = count
+          if count.toString() == '0' and none
+            result = gettext none
           else
-            if value == 1 then singular_key else plural_key
+            result = ngettext singular, plural, count
+
+          _.template(result, placeholders,
+            interpolate: /%([\s\S]+?)%/g
+          )
 
         ready: ->
           readyDeferred.promise
@@ -142,13 +159,7 @@
             _placeholders = placeholders
             return unless ready
             return unless Object.keys($scope.placeholders).length
-            if $scope.count.toString() == '0' and $scope.none
-              result = i18n._ $scope.none
-            else
-              result = i18n._n $scope.singular, $scope.plural, count
-            $scope.result = _.template(result, placeholders,
-              interpolate: /%([\s\S]+?)%/g
-            )
+            $scope.result = i18n._n($scope.singular, $scope.plural, $scope.count, $scope.placeholders, $scope.nonenone)
 
           watchObjects = ['count']
 
@@ -163,4 +174,16 @@
           )
       )
   ]
+
+  angular.module('jed').filter 'trans', (i18n) ->
+    transFilter = (text, options = {}) ->
+      if options.plural
+        i18n._n(text, options.plural, options.count, options.placeholders, options.none)
+      else
+        options.placeholders ?= {}
+        i18n._ text, options.placeholders
+
+    transFilter.$stateful = true
+
+    transFilter
 )()
