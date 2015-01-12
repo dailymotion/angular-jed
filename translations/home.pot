@@ -14,7 +14,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-msgid "%user% does'nt have any apples"
+msgid "%user% doesn't have any apples"
 msgstr ""
 
 msgid "%user% is the king of the pop"

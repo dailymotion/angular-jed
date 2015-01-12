@@ -23,11 +23,14 @@ msgid_plural "%user% has %count% apples"
 msgstr[0] "%user% a %count% pomme"
 msgstr[1] "%user% a %count% pommes"
 
-msgid "%user% does'nt have any apples"
+msgid "%user% doesn't have any apples"
 msgstr "%user% n'a aucune pomme"
 
 msgid "%user% is the king of the pop"
 msgstr "%user% est le king of the pop"
+
+#~ msgid "%user% does'nt have any apples"
+#~ msgstr "%user% n'a aucune pomme"
 
 #~ msgid "%user% doesn'nt have any apples"
 #~ msgstr "%user% n'a aucune pomme"

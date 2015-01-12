@@ -42,6 +42,7 @@ app.controller('HomeController', [
       $scope.title = i18n._ 'Text translated from the controller'
 
     $scope.nbr = 10
+    $scope.user = 'Michael Jackson'
 ])
 
 app.directive 'language', ->
