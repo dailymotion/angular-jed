@@ -18,45 +18,51 @@ or
 
 When running your app it's on you to set the language and the path to the translations files.
 
-    angular.module('myApp', ['jed'])
-      .run(['i18n'], function(i18n) {
-        i18n.setTranslationPath('/path/to/translations')
-          .setLang('fr_FR');
-      });
+```javascript
+angular.module('myApp', ['jed'])
+    .run(['i18n'], function(i18n) {
+    i18n.setTranslationPath('/path/to/translations')
+        .setLang('fr_FR');
+    });
+```
 
 ### Controllers
 
 The service provides a `loadPage` method to load a page translation file. The method returns a promise to make sure the translations methods can be used safely.
 
-    angular.module('myApp').controller('Video', [
-      '$scope'
-      'i18n'
+```javascript
+angular.module('myApp').controller('Video', [
+    '$scope'
+    'i18n'
     ], function($scope, i18n) {
-      i18n.loadPage('video').then(function() {
-        $scope.translatedText = i18n._('This text will be translated');
-      });
+    i18n.loadPage('video').then(function() {
+    $scope.translatedText = i18n._('This text will be translated');
     });
-
+});
+```
 ### Common translations
 
 You can load common translations (eg. for directives) which will add to the current translations loaded. Returns a promise.
 
-    angular.module('myApp').directive('footer', [
-      'i18n'
+```javascript
+angular.module('myApp').directive('footer', [
+    'i18n'
     ], function(i18n) {
-      i18n.loadCommon('footer').then(function() {
-        message = i18n._('This text will be translated');
-      });
+    i18n.loadCommon('footer').then(function() {
+    message = i18n._('This text will be translated');
     });
-
+});
+```
 ### Translations
 
 ### Filter
 
 In the views you can use the `trans` filter:
 
-    <h1>{{ 'Translated title here'|trans }}</h1>
-    <h2>{{ 'There is one cat'|trans:{plural: 'There are several cats', count: nbrOfCats, none: 'There are no cats'} }}</h2>
+```html
+<h1>{{ 'Translated title here'|trans }}</h1>
+<h2>{{ 'There is one cat'|trans:{plural: 'There are several cats', count: nbrOfCats, none: 'There are no cats'} }}</h2>
+```
 
 Options:
 * `singular` Singular text
@@ -69,8 +75,9 @@ Options:
 
 A `trans` directive is available for more complex plural:
 
-    <trans singular="There is one %obj%" plural="There are %number% %objs%" none="No %objs%" count="nbr" placeholders="{number: nbr, obj: object, objs: objects}"></trans>
-
+```html
+<trans singular="There is one %obj%" plural="There are %number% %objs%" none="No %objs%" count="nbr" placeholders="{number: nbr, obj: object, objs: objects}"></trans>
+```
 The attributes are the same as the options for the filter.
 
 ## API
