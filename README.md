@@ -2,7 +2,7 @@
 
 Angular wrapper for [Jed](http://slexaxton.github.io/Jed/).
 
-Check out the [gh-pages branch to see a working example](http://romainberger.github.io/angular-jed).
+Check out the [gh-pages branch to see a working example](http://dailymotion.github.io/angular-jed/#/home).
 
 ## Installation
 
