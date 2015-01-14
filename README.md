@@ -20,10 +20,10 @@ When running your app it's on you to set the language and the path to the transl
 
 ```javascript
 angular.module('myApp', ['jed'])
-    .run(['i18n'], function(i18n) {
+  .run(['i18n', function(i18n) {
     i18n.setTranslationPath('/path/to/translations')
-        .setLang('fr_FR');
-    });
+      .setLang('fr_FR');
+  }]);
 ```
 
 ### Controllers
@@ -31,27 +31,29 @@ angular.module('myApp', ['jed'])
 The service provides a `loadPage` method to load a page translation file. The method returns a promise to make sure the translations methods can be used safely.
 
 ```javascript
-angular.module('myApp').controller('Video', [
-    '$scope'
-    'i18n'
-    ], function($scope, i18n) {
-    i18n.loadPage('video').then(function() {
-    $scope.translatedText = i18n._('This text will be translated');
-    });
-});
+angular.module('myApp')
+  .controller('Video', [
+    '$scope',
+    'i18n',
+    function($scope, i18n) {
+      i18n.loadPage('video').then(function() {
+        $scope.translatedText = i18n._('This text will be translated');
+      });
+    }
+]);
 ```
 ### Common translations
 
 You can load common translations (eg. for directives) which will add to the current translations loaded. Returns a promise.
 
 ```javascript
-angular.module('myApp').directive('footer', [
-    'i18n'
-    ], function(i18n) {
+angular.module('myApp')
+  .directive('footer', ['i18n', function(i18n) {
     i18n.loadCommon('footer').then(function() {
-    message = i18n._('This text will be translated');
+      message = i18n._('This text will be translated');
     });
-});
+  }
+]);
 ```
 ### Translations
 
