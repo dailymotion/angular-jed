@@ -4,6 +4,14 @@
   "description": "Angular wrapper for Jed",
   "main": "dist/angular-jed.js",
   "author": "Romain Berger <romain.berger@dailymotion.com>",
+  "bugs": {
+    "email": "romain.berger@dailymotion.com",
+    "url": "http://github.com/dailymotion/angular-jed/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dailymotion/angular-jed.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.8.10",

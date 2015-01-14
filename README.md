@@ -101,6 +101,6 @@ The translations files are cached so they won't be loaded twice. The cache is on
 
 If the translations files are not found the service falls back to the a default language. If even the default language file isn't found the translations method juste returns the given keys.
 
-## Known issues
+## Known issue
 
-* The domains are not usable for now. The `loadCommon` method merges the messages with the current page loaded, so everything falls into the page domain. The domain are currently used for the FAQ page and the email in the website as it is nowadays.
+The domains are not usable for now. The `loadCommon` method merges the messages with the current page loaded, so everything falls into the page domain.
