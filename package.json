@@ -1,6 +1,6 @@
 {
   "name": "angular-jed",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Angular wrapper for Jed",
   "main": "dist/angular-jed.js",
   "author": "Romain Berger <romain.berger@dailymotion.com>",
