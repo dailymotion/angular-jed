@@ -216,7 +216,7 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
             count = parseFloat(newVal);
             nbrCount = count;
             countIsNaN = isNaN(count);
-            if (!countIsNaN && !(__indexOf.call(whens, count) >= 0)) {
+            if (whens && !countIsNaN && !(__indexOf.call(whens, count) >= 0)) {
               count = $locale.pluralCat(count);
             }
             if ((count !== lastCount) && !(countIsNaN && isNaN(lastCount))) {

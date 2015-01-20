@@ -182,7 +182,7 @@
             nbrCount = count
             countIsNaN = isNaN count
 
-            if !countIsNaN && !(count in whens)
+            if whens and !countIsNaN && !(count in whens)
               count = $locale.pluralCat count
 
             if (count != lastCount) && !(countIsNaN && isNaN(lastCount))
