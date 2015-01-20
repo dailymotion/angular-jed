@@ -1,7 +1,8 @@
-<div class="page-header">
+<div class="jumbotron">
     <div class="row">
         <div class="col-lg-9">
             <h1>Angular Jed</h1>
+            <p>Angular wrapper for <a href="http://slexaxton.github.io/Jed/">Jed</a></p>
         </div>
         <div class="col-lg-3">
             <language></language>
@@ -14,47 +15,21 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h2>Angular wrapper for <a href="http://slexaxton.github.io/Jed/">Jed</a></h2>
-        <h4>See the <a href="{{ githubLink }}">Github page</a> for the complete documentation</h4>
-        <p>The module provides a filter and a directive for all kinds of translations.</p>
+        <h5>The module provides a filter and a directive for all your translations needs.</h5>
+        <p>See the <a href="{{ githubLink }}">Github page</a> for the complete documentation</p>
     </div>
 </div>
 <hr>
 
 <div class="row">
     <div class="col-lg-12">
-        <h3>Translations in controllers</h3>
+        <h3>Trans directive <span class="text-muted">- Works as a tag or attribute</span></h3>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-5">
-        <p>{{ title }}</p>
-    </div>
-    <div class="col-lg-7">
-        <pre class="language-javascript"><code class="language-javascript">// controller
-app.controller('HomeController', [
-  '$scope', 'i18n', function($scope, i18n) {
-    // load a page translation
-    i18n.loadPage('home').then(function() {
-      $scope.title = i18n._('{{ username }} is the king of the pop',
-                             {username: $scope.username});
-    });
-]);</code></pre>
-        <pre class="language-markup"><code class="language-markup">&lt;!-- template --&gt;
-&lt;p&gt;{{ title }}&lt;/p&gt;</code></pre>
-    </div>
-</div>
-<hr>
-
-<div class="row">
-    <div class="col-lg-12">
-        <h3>Trans directive - <span class="text-muted">Works as a tag or attribute</span></h3>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-5">
-        <p><input type="text" ng-model="nbr" placeholder="Enter a number of apple"></p>
-        <p><input type="text" ng-model="username" placeholder="Enter a user name"></p>
+        <p><input class="form-control" type="text" ng-model="nbr" placeholder="Enter a number of apple"></p>
+        <p><input class="form-control" type="text" ng-model="username" placeholder="Enter a user name"></p>
         <p><trans count="nbr"
                   when="{
                       one: '{{ username }} has {{ nbr|number }} apple',
@@ -97,13 +72,13 @@ app.controller('HomeController', [
 
 <div class="row">
     <div class="col-lg-12">
-        <h3>Trans filter</h3>
+        <h3>Trans filter <span class="text-muted">- Less readable but works where you can't put tags (eg. attributes)</span></h3>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-5">
-        <p><input type="text" ng-model="nbr" placeholder="Enter a number of apple"></p>
-        <p><input type="text" ng-model="username" placeholder="Enter a user name"></p>
+        <p><input class="form-control" type="text" ng-model="nbr" placeholder="Enter a number of apple"></p>
+        <p><input class="form-control" type="text" ng-model="username" placeholder="Enter a user name"></p>
         <p>{{ 'Text translated from the view'|trans }}</p>
         <p>{{ '%username% has %nbr% apple'|trans:{plural: '%username% has %nbr% apples', none: "%username% doesn't have any apples", count: nbr, placeholders: {username: username, nbr: nbr} } }}</p>
         <p>{{ '%username% is the king of the pop'|trans:{placeholders: {username: username} } }}</p>
@@ -115,3 +90,29 @@ app.controller('HomeController', [
 {{ '%username% is the king of the pop'|trans:{placeholders: {username: username} } }}</code></pre>
     </div>
 </div>
+<hr>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Translations in controllers <span class="text-muted">- Also works but you won't have any data binding</span></h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-5">
+        <p>{{ title }}</p>
+    </div>
+    <div class="col-lg-7">
+        <pre class="language-javascript"><code class="language-javascript">// controller
+app.controller('HomeController', [
+  '$scope', 'i18n', function($scope, i18n) {
+    // load a page translation
+    i18n.loadPage('home').then(function() {
+      $scope.title = i18n._('{{ username }} is the king of the pop',
+                             {username: $scope.username});
+    });
+]);</code></pre>
+        <pre class="language-markup"><code class="language-markup">&lt;!-- template --&gt;
+&lt;p&gt;{{ title }}&lt;/p&gt;</code></pre>
+    </div>
+</div>
+<hr>
