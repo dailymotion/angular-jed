@@ -14,6 +14,12 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
+msgid "{{ username }} has {{ nbr }} apple"
+msgid_plural "{{ username }} has {{ nbr }} apples"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "{{ username }} doesn't have any apples"
 msgstr ""
 

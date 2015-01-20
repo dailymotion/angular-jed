@@ -23,6 +23,11 @@ msgid_plural "{{ username }} has {{ nbr|number }} apples"
 msgstr[0] "{{ username }} a {{ nbr|number }} pomme"
 msgstr[1] "{{ username }} a {{ nbr|number }} pommes"
 
+msgid "{{ username }} has {{ nbr }} apple"
+msgid_plural "{{ username }} has {{ nbr }} apples"
+msgstr[0] "{{ username }} a {{ nbr }} pomme"
+msgstr[1] "{{ username }} a {{ nbr }} pommes"
+
 msgid "{{ username }} doesn't have any apples"
 msgstr "{{ username }} n'a aucune pomme"
 
