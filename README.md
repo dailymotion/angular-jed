@@ -38,6 +38,7 @@ angular.module('myApp')
     function($scope, i18n) {
       i18n.loadPage('video').then(function() {
         $scope.translatedText = i18n._('This text will be translated');
+        $scope.textWithVariable = i18n._('{{ username }} is the king of the pop', {username: 'Michael Jackson'});
       });
     }
 ]);
@@ -57,13 +58,27 @@ angular.module('myApp')
 ```
 ### Translations
 
+A `trans` directive as a tag or attribute:
+
+```html
+<trans>{{ username }} is the king of the pop</trans>
+<trans count="nbr"
+       when="{
+         one: '{{ username }} has one apple',
+         plural: '{{ username }} has {{ nbr }} apples',
+         none: '{{ username }} has no apples'
+       }">
+</trans>
+```
+
 ### Filter
 
-In the views you can use the `trans` filter:
+In the views you can use the `trans` filter. Less readable and you need to pass the variables but you can use it where you can put tags (eg. attributes).
 
 ```html
 <h1>{{ 'Translated title here'|trans }}</h1>
 <h2>{{ 'There is one cat'|trans:{plural: 'There are several cats', count: nbrOfCats, none: 'There are no cats'} }}</h2>
+<a href="http://dailymotion.github.io/angular-jed/" title="{{ 'Read the documentation'|trans }}">{{ 'Link to the documentation'|trans }}</a>
 ```
 
 Options:
@@ -75,13 +90,6 @@ Options:
 
 ### Directive
 
-A `trans` directive is available for more complex plural:
-
-```html
-<trans singular="There is one %obj%" plural="There are %number% %objs%" none="No %objs%" count="nbr" placeholders="{number: nbr, obj: object, objs: objects}"></trans>
-```
-The attributes are the same as the options for the filter.
-
 ## API
 
 * `setTranslationPath(path)` Set the translation path to retrieve the translation files
@@ -91,8 +99,8 @@ The attributes are the same as the options for the filter.
 * `ready` Returns a promise resolved when the service has loaded the initial file
 * `loadPage(page)` Load a page translations. Returns a promise
 * `loadCommon(name)` Load common translations (footer, header...). Returns a promise
-* `_(key)` Simple translation
-* `_n(singular_key, plural_key, value)` Translation for plural
+* `_(key, placeholders)` Simple translation
+* `_n(singular_key, plural_key, value, placeholders, none)` Translation for plural
 
 ## Translation files
 
