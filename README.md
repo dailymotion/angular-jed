@@ -109,6 +109,8 @@ For example calling `i18n.loadPage('video')` will load the file `video-fr_FR` (o
 
 The translations files are cached so they won't be loaded twice. The cache is only a js variable so it just lives during the angular app life.
 
+For better performances, you can also include your translations json in `window.translations` to avoid ajax requests. Angular-jed will automatically use them instead of loading them from a server.
+
 If the translations files are not found the service falls back to the a default language. If even the default language file isn't found the translations method juste returns the given keys.
 
 ## Known issue

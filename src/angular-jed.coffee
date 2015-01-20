@@ -5,7 +5,7 @@
   lang = defaultLang
   i18n = false
   translationsPath = false
-  pageDatas = false
+  pageDatas = {}
   commonDatas = {}
   cache = {}
 
@@ -71,7 +71,6 @@
         loadCommon: (common) ->
           deferred = $q.defer()
           get("#{common}-#{lang}.json").then((data) ->
-            # not sure this is needed tho
             commonDatas = extend commonDatas, data.locale_data.messages
             if pageDatas
               pageDatas.locale_data.messages = extend pageDatas.locale_data.messages, commonDatas
