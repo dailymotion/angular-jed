@@ -158,43 +158,59 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
         restrict: 'AE',
         replace: true,
         link: function(scope, element, attr) {
-          var countExp, exp, exprFn, expression, key, lastCount, ready, render, updateElementText, watchExps, whenExp, whens, _count, _i, _len, _ref;
+          var countExp, elementText, exp, exprFn, expression, key, lastCount, ready, render, updateElementText, watchExps, whenExp, whens, _count, _i, _j, _len, _len1, _ref, _ref1;
           countExp = attr.count;
           whenExp = attr.$attr.when && element.attr(attr.$attr.when);
           whens = scope.$eval(whenExp);
           watchExps = [];
+          elementText = element.text();
           lastCount = null;
           ready = false;
           _count = false;
           i18n.ready().then(function() {
             return render(_count);
           });
-          for (key in whens) {
-            expression = whens[key];
-            exprFn = $interpolate(expression);
-            _ref = exprFn.expressions;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              exp = _ref[_i];
+          if (whens) {
+            for (key in whens) {
+              expression = whens[key];
+              exprFn = $interpolate(expression);
+              _ref = exprFn.expressions;
+              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                exp = _ref[_i];
+                exp = exp.split('|')[0].replace(WHITESPACE, '');
+                if (__indexOf.call(watchExps, exp) < 0) {
+                  watchExps.push(exp);
+                }
+              }
+            }
+            render = function(count) {
+              var result, singular;
+              result = false;
+              if (count === 0 && angular.isDefined(whens[0])) {
+                result = whens[0];
+              }
+              if (result) {
+                result = i18n._(result, scope);
+              } else {
+                singular = whens['one'] != null ? whens['one'] : whens['one'] = whens['singular'];
+                result = i18n._n(singular, whens['plural'], count, scope);
+              }
+              return updateElementText(result);
+            };
+          } else {
+            exprFn = $interpolate(elementText);
+            _ref1 = exprFn.expressions;
+            for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+              exp = _ref1[_j];
               exp = exp.split('|')[0].replace(WHITESPACE, '');
               if (__indexOf.call(watchExps, exp) < 0) {
                 watchExps.push(exp);
               }
             }
+            render = function(count) {
+              return updateElementText(i18n._(elementText, scope));
+            };
           }
-          render = function(count) {
-            var result, singular;
-            result = false;
-            if (count === 0 && angular.isDefined(whens[0])) {
-              result = whens[0];
-            }
-            if (result) {
-              result = i18n._(result, scope);
-            } else {
-              singular = whens['one'] != null ? whens['one'] : whens['one'] = whens['singular'];
-              result = i18n._n(singular, whens['plural'], count, scope);
-            }
-            return updateElementText(result);
-          };
           scope.$watch(countExp, function(newVal) {
             var count, countIsNaN, nbrCount;
             count = parseFloat(newVal);
