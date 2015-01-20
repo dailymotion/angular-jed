@@ -141,6 +141,7 @@
           whenExp = attr.$attr.when && element.attr attr.$attr.when
           whens = scope.$eval whenExp
           watchExps = []
+          elementText = element.text()
           lastCount = null
           ready = false
           _count = false
@@ -148,29 +149,37 @@
           i18n.ready().then ->
             render(_count)
 
-          for key, expression of whens
-            exprFn = $interpolate(expression)
+          if whens
+            for key, expression of whens
+              exprFn = $interpolate expression
+              for exp in exprFn.expressions
+                exp = exp.split('|')[0].replace(WHITESPACE, '')
+                watchExps.push exp unless exp in watchExps
+
+            render = (count) ->
+              result = false
+              if count == 0 and angular.isDefined whens[0]
+                result = whens[0]
+
+              if result
+                result = i18n._ result, scope
+              else
+                singular = whens['one'] ?= whens['singular']
+                result = i18n._n singular, whens['plural'], count, scope
+
+              updateElementText result
+          else
+            exprFn = $interpolate elementText
             for exp in exprFn.expressions
               exp = exp.split('|')[0].replace(WHITESPACE, '')
               watchExps.push exp unless exp in watchExps
 
-          render = (count) ->
-            result = false
-            if count == 0 and angular.isDefined whens[0]
-              result = whens[0]
-
-            if result
-              result = i18n._ result, scope
-            else
-              singular = whens['one'] ?= whens['singular']
-              result = i18n._n singular, whens['plural'], count, scope
-
-            updateElementText result
+            render = (count) ->
+              updateElementText i18n._ elementText, scope
 
           scope.$watch countExp, (newVal) ->
             count = parseFloat newVal
             nbrCount = count
-
             countIsNaN = isNaN count
 
             if !countIsNaN && !(count in whens)
@@ -178,7 +187,7 @@
 
             if (count != lastCount) && !(countIsNaN && isNaN(lastCount))
               _count = nbrCount
-              render(nbrCount)
+              render nbrCount
               lastCount = nbrCount
 
           scope.$watchGroup watchExps, ->
