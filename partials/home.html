@@ -69,28 +69,47 @@ app.controller('HomeController', [
 
 <div class="row">
     <div class="col-lg-12">
-        <h3>Trans directive</h3>
+        <h3>Trans directive - <span class="text-muted">Works as a tag or attribute</span></h3>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-5">
         <p><input type="text" ng-model="nbr" placeholder="Enter a number of apple"></p>
         <p><input type="text" ng-model="username" placeholder="Enter a user name"></p>
-        <p><trans singular="%user% has %count% apple"
-                  plural="%user% has %count% apples"
-                  none="%user% doesn't have any apples"
-                  count="nbr"
-                  placeholders="{user: username}">
+        <p><trans count="nbr"
+                  when="{
+                      one: '{{ username }} has {{ nbr|number }} apple',
+                      plural: '{{ username }} has {{ nbr|number }} apples',
+                      none: '{{ username }} doesn\'t have any apples'
+                  }">
         </trans></p>
+        <h4  trans
+            count="nbr"
+            when="{
+                one: '{{ username }} has {{ nbr|number }} apple',
+                plural: '{{ username }} has {{ nbr|number }} apples',
+                none: '{{ username }} doesn\'t have any apples'
+            }">
+        </h4>
     </div>
     <div class="col-lg-7">
         <pre class="language-markup"><code class="language-markup">&lt;input type="text" ng-model="nbr"&gt;
 &lt;input type="text" ng-model="username"&gt;
-&lt;trans singular="%user% has %count% apple"
-       plural="%user% has %count% apples"
-       none="%user% doesn't have any apples"
-       count="nbr"
-       placeholders="{user: username}"&gt;
-&lt;/trans&gt;</code></pre>
+&lt;trans
+    count="nbr"
+    when="{
+        one: '{{ username }} has {{ nbr|number }} apple',
+        plural: '{{ username }} has {{ nbr|number }} apples',
+        none: '{{ username }} doesn\'t have any apples'
+    }"&gt;
+&lt;/trans&gt;
+&lt;h4 trans
+    count="nbr"
+    when="{
+        one: '{{ username }} has {{ nbr|number }} apple',
+        plural: '{{ username }} has {{ nbr|number }} apples',
+        none: '{{ username }} doesn\'t have any apples'
+    }"&gt;
+&lt;/h4&gt;</code></pre>
     </div>
 </div>

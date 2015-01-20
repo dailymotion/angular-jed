@@ -25,7 +25,7 @@
 
   angular.module 'jed', []
 
-  angular.module('jed').factory 'i18n', [
+  angular.module('jed').service 'i18n', [
     '$http'
     '$rootScope'
     '$q'
@@ -134,47 +134,65 @@
 
   angular.module('jed').directive 'trans', [
     'i18n'
-    (i18n) ->
+    '$interpolate'
+    '$locale'
+    (i18n, $interpolate, $locale) ->
+      BRACE = /{}/g
+      WHITESPACE = new RegExp(' ', 'g')
       return (
-        restrict: 'E'
+        restrict: 'AE'
         replace: true
-        scope:
-          singular: '@'
-          plural: '@'
-          none: '@'
-          count: '='
-          placeholders: '='
-        template: '<span>{{ result }}</span>'
-        controller: ($scope, $element) ->
-          ready = false;
-          _placeholders = {}
-          _count = 0
-
-          $scope.placeholders ?= {}
+        link: (scope, element, attr) ->
+          countExp = attr.count
+          whenExp = attr.$attr.when && element.attr attr.$attr.when
+          whens = scope.$eval whenExp
+          lastCount = null
+          ready = false
+          _count = false
+          watchExps = []
 
           i18n.ready().then ->
-            ready = true
-            render(_count, _placeholders)
+            render(_count)
 
-          render = (count, placeholders = {}) ->
-            _count = count
-            _placeholders = placeholders
-            return unless ready
-            return unless Object.keys(placeholders).length
-            $scope.result = i18n._n($scope.singular, $scope.plural, count, $scope.placeholders, $scope.none)
+          for key, expression of whens
+            exprFn = $interpolate(expression)
+            for exp in exprFn.expressions
+              exp = exp.split('|')[0].replace(WHITESPACE, '')
+              watchExps.push exp unless exp in watchExps
 
-          watchObjects = ['count']
+          render = (count) ->
+            result = false
+            if count == 0 and angular.isDefined whens[0]
+              result = whens[0]
 
-          if Object.keys($scope.placeholders).length
-            for key, name of Object.keys($scope.placeholders)
-              watchObjects.push "placeholders.#{name}"
+            if result
+              result = i18n._ result
+            else
+              singular = whens['one'] ?= whens['singular']
+              result = i18n._n singular, whens['plural'], count
 
-          $scope.$watchGroup(watchObjects, ->
-            if typeof parseInt($scope.count) != 'number' or $scope.count == ''
-              return
+            result = $interpolate(result)
+            updateElementText result(scope)
 
-            render($scope.count, $scope.placeholders)
-          )
+          scope.$watch countExp, (newVal) ->
+            count = parseInt newVal
+            nbrCount = count
+
+            countIsNaN = isNaN count
+
+            if !countIsNaN && !(count in whens)
+              count = $locale.pluralCat count
+
+            if (count != lastCount) && !(countIsNaN && isNaN(lastCount))
+              _count = nbrCount
+              render(nbrCount)
+              lastCount = nbrCount
+
+          scope.$watchGroup watchExps, ->
+            render(lastCount)
+
+          updateElementText = (text) ->
+            element.text text if text
       )
   ]
 

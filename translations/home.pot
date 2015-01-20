@@ -8,14 +8,14 @@ msgstr ""
 msgid "Text translated from the controller"
 msgstr ""
 
-msgid "%user% has %count% apple"
-msgid_plural "%user% has %count% apples"
+msgid "{{ username }} has {{ nbr|number }} apple"
+msgid_plural "{{ username }} has {{ nbr|number }} apples"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-msgid "%user% doesn't have any apples"
+msgid "{{ username }} doesn't have any apples"
 msgstr ""
 
-msgid "%user% is the king of the pop"
+msgid "{{ username }} is the king of the pop"
 msgstr ""

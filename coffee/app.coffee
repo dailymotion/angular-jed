@@ -41,7 +41,7 @@ app.controller('HomeController', [
     i18n.loadPage('home').then ->
       $scope.title = i18n._ '%user% is the king of the pop', {user: $scope.username}
 
-    $scope.nbr = 10
+    $scope.nbr = 10000
     $scope.username = 'Michael Jackson'
 ])
 
