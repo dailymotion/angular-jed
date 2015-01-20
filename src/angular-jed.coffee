@@ -143,7 +143,6 @@
           watchExps = []
           elementText = element.text()
           lastCount = null
-          ready = false
           _count = false
 
           i18n.ready().then ->
@@ -174,7 +173,7 @@
               exp = exp.split('|')[0].replace(WHITESPACE, '')
               watchExps.push exp unless exp in watchExps
 
-            render = (count) ->
+            render = ->
               updateElementText i18n._ elementText, scope
 
           scope.$watch countExp, (newVal) ->
