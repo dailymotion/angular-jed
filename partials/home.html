@@ -30,6 +30,7 @@
     <div class="col-lg-5">
         <p><input class="form-control" type="text" ng-model="nbr" placeholder="Enter a number of apple"></p>
         <p><input class="form-control" type="text" ng-model="username" placeholder="Enter a user name"></p>
+        <trans>{{ username }} is the king of the pop</trans>
         <p><trans count="nbr"
                   when="{
                       one: '{{ username }} has {{ nbr|number }} apple',
@@ -49,6 +50,9 @@
     <div class="col-lg-7">
         <pre class="language-markup"><code class="language-markup">&lt;input type="text" ng-model="nbr"&gt;
 &lt;input type="text" ng-model="username"&gt;
+&lt;!-- Simple translation --&gt;
+&lt;trans&gt;{{ username }} is the king of the pop&lt;/trans&gt;
+&lt;!-- More complex translations --&gt;
 &lt;trans
     count="nbr"
     when="{
