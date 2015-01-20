@@ -25,11 +25,11 @@
 
   angular.module 'jed', []
 
-  angular.module('jed').factory 'i18n', [
+  angular.module('jed').service 'i18n', [
     '$http'
-    '$rootScope'
     '$q'
-    ($http, $rootScope, $q) ->
+    '$interpolate'
+    ($http, $q, $interpolate) ->
       readyDeferred = $q.defer()
 
       # Get a translation file from cache or ajax
@@ -47,17 +47,11 @@
               deferred.resolve(data)
             .error ->
               deferred.reject()
-        return deferred.promise
+        deferred.promise
 
       # Initialize Jed
       setI18N = (data = false) ->
-        i18n = if data then new Jed(data)
-
-        $rootScope._ = (key) ->
-          jed._(key)
-
-        $rootScope._n = (singular_key, plural_key, value, placeholders, none) ->
-          jed._n(singular_key, plural_key, value, placeholders, none)
+        i18n = if data then new Jed data
 
       # Public API
       jed =
@@ -105,28 +99,29 @@
             if lang == defaultLang
               setI18N()
             else
-              jed.loadPage(page)
+              jed.loadPage page
             readyDeferred.resolve()
             deferred.resolve()
           )
           deferred.promise
 
         _: (key, placeholders = {}) ->
-          result = gettext(key)
-          _.template(result, placeholders,
-            interpolate: /%([\s\S]+?)%/g
-          )
+          result = gettext key
+          result = $interpolate result
+          result placeholders
 
         _n: (singular, plural, count, placeholders = {}, none) ->
           placeholders.count = count
-          if count.toString() == '0' and none
+          count = parseFloat count
+          if isNaN count
+            count = 0
+          if (count.toString() == '0') and none
             result = gettext none
           else
             result = ngettext singular, plural, count
 
-          _.template(result, placeholders,
-            interpolate: /%([\s\S]+?)%/g
-          )
+          result = $interpolate result
+          result placeholders
 
         ready: ->
           readyDeferred.promise
@@ -134,59 +129,89 @@
 
   angular.module('jed').directive 'trans', [
     'i18n'
-    (i18n) ->
+    '$interpolate'
+    '$locale'
+    (i18n, $interpolate, $locale) ->
+      WHITESPACE = new RegExp(' ', 'g')
       return (
-        restrict: 'E'
+        restrict: 'AE'
         replace: true
-        scope:
-          singular: '@'
-          plural: '@'
-          none: '@'
-          count: '='
-          placeholders: '='
-        template: '<span>{{ result }}</span>'
-        controller: ($scope, $element) ->
-          ready = false;
-          _placeholders = {}
-          _count = 0
-
-          $scope.placeholders ?= {}
+        link: (scope, element, attr) ->
+          countExp = attr.count
+          whenExp = attr.$attr.when && element.attr attr.$attr.when
+          whens = scope.$eval whenExp
+          watchExps = []
+          lastCount = null
+          ready = false
+          _count = false
 
           i18n.ready().then ->
-            ready = true
-            render(_count, _placeholders)
+            render(_count)
 
-          render = (count, placeholders = {}) ->
-            _count = count
-            _placeholders = placeholders
-            return unless ready
-            return unless Object.keys(placeholders).length
-            $scope.result = i18n._n($scope.singular, $scope.plural, count, $scope.placeholders, $scope.none)
+          for key, expression of whens
+            exprFn = $interpolate(expression)
+            for exp in exprFn.expressions
+              exp = exp.split('|')[0].replace(WHITESPACE, '')
+              watchExps.push exp unless exp in watchExps
 
-          watchObjects = ['count']
+          render = (count) ->
+            result = false
+            if count == 0 and angular.isDefined whens[0]
+              result = whens[0]
 
-          if Object.keys($scope.placeholders).length
-            for key, name of Object.keys($scope.placeholders)
-              watchObjects.push "placeholders.#{name}"
+            if result
+              result = i18n._ result, scope
+            else
+              singular = whens['one'] ?= whens['singular']
+              result = i18n._n singular, whens['plural'], count, scope
 
-          $scope.$watchGroup(watchObjects, ->
-            if typeof parseInt($scope.count) != 'number' or $scope.count == ''
-              return
+            updateElementText result
 
-            render($scope.count, $scope.placeholders)
-          )
+          scope.$watch countExp, (newVal) ->
+            count = parseFloat newVal
+            nbrCount = count
+
+            countIsNaN = isNaN count
+
+            if !countIsNaN && !(count in whens)
+              count = $locale.pluralCat count
+
+            if (count != lastCount) && !(countIsNaN && isNaN(lastCount))
+              _count = nbrCount
+              render(nbrCount)
+              lastCount = nbrCount
+
+          scope.$watchGroup watchExps, ->
+            render lastCount
+
+          updateElementText = (text) ->
+            element.text text if text
       )
   ]
 
-  angular.module('jed').filter 'trans', (i18n) ->
-    transFilter = (text, options = {}) ->
-      if options.plural
-        i18n._n(text, options.plural, options.count, options.placeholders, options.none)
-      else
-        options.placeholders ?= {}
-        i18n._ text, options.placeholders
+  percentageToBraces = (string) ->
+    result = string.match(/%.*?%/g)
+    return string unless result
+    for match in result
+      strippedMatch = match.replace(/%/g, '')
+      string = string.replace(match, '{{ ' + strippedMatch + ' }}')
+    string
 
-    transFilter.$stateful = true
+  angular.module('jed').filter 'trans', [
+    'i18n'
+    (i18n) ->
+      transFilter = (text, options = {}) ->
+        text = percentageToBraces text
+        if options.plural
+          options.plural = percentageToBraces options.plural
+          options.none = percentageToBraces options.none
+          i18n._n text, options.plural, options.count, options.placeholders, options.none
+        else
+          options.placeholders ?= {}
+          i18n._ text, options.placeholders
 
-    transFilter
+      transFilter.$stateful = true
+
+      transFilter
+  ]
 )()
