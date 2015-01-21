@@ -18,6 +18,7 @@ module.exports = function(config) {
       'test/angular.js',
       'test/angular-mocks.js',
       'node_modules/jed/jed.js',
+      'test/translations.coffee',
       'dist/angular-jed.js',
       'test/*_spec.coffee'
     ],

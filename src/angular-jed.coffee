@@ -37,7 +37,11 @@
         deferred = $q.defer()
         varName = file.replace('.json', '')
         if window.translations and window.translations[varName]
-          deferred.resolve(JSON.parse window.translations[varName])
+          transDatas = window.translations[varName]
+          if typeof transDatas == 'object'
+            deferred.resolve transDatas
+          else
+            deferred.resolve(JSON.parse transDatas)
         else if file of cache
           deferred.resolve(cache[file])
         else

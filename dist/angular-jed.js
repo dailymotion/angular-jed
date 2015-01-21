@@ -42,11 +42,16 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
       var get, jed, readyDeferred, setI18N;
       readyDeferred = $q.defer();
       get = function(file) {
-        var deferred, varName;
+        var deferred, transDatas, varName;
         deferred = $q.defer();
         varName = file.replace('.json', '');
         if (window.translations && window.translations[varName]) {
-          deferred.resolve(JSON.parse(window.translations[varName]));
+          transDatas = window.translations[varName];
+          if (typeof transDatas === 'object') {
+            deferred.resolve(transDatas);
+          } else {
+            deferred.resolve(JSON.parse(transDatas));
+          }
         } else if (file in cache) {
           deferred.resolve(cache[file]);
         } else {

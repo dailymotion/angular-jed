@@ -1,18 +1,5 @@
 'use strict'
 
-translations =
-  domain: "messages"
-  locale_data:
-    messages:
-      '':
-        domain: "messages"
-        plural_forms: "nplurals=2; plural=(n > 1);"
-        lang: "fr"
-      "This is a test": [null, "Ceci est un test"]
-      "{{ username }} is not a test": [null, "{{ username }} n'est pas un test"]
-      "Nothing to see here": [null, "Rien a voir ici"]
-      "One thing here": ["Un tas de trucs ici", "Un truc ici", "Un tas de trucs ici"]
-
 describe 'trans directive', ->
   compile = $rootScope = null
 
@@ -25,6 +12,12 @@ describe 'trans directive', ->
           one: \'One thing here\',
           plural: \'A bunch of things here\'
         }"></trans>'
+  variablePluralTrans = '<trans count="nbr"
+        when="{
+          0: \'{{ user }} has no apple\',
+          one: \'{{ user }} has one apple\',
+          plural: \'{{ user }} has {{ nbr }} apples\'
+        }"></trans>'
 
   beforeEach ->
     module 'jed'
@@ -33,8 +26,8 @@ describe 'trans directive', ->
       $rootScope = _$rootScope_
       compile = _$compile_
 
-      i18n._setTranslations translations
-          .setLang 'fr_FR'
+      i18n.setLang 'fr_FR'
+          .loadPage 'main'
 
   it 'should perform a simple translation for a tag', ->
     scope = $rootScope.$new()
@@ -76,3 +69,17 @@ describe 'trans directive', ->
     scope.nbr = 10
     scope.$digest()
     expect(element.html()).toContain('Un tas de trucs ici')
+
+  it 'should perform a plural translation with variable and watch the count', ->
+    scope = $rootScope.$new()
+    scope.nbr = 0
+    scope.user = 'Christian Bale'
+    element = compile(variablePluralTrans)(scope)
+    scope.$digest()
+    expect(element.html()).toContain("Christian Bale n'a aucune pomme")
+    scope.nbr = 1
+    scope.$digest()
+    expect(element.html()).toContain('Christian Bale a une pomme')
+    scope.nbr = 10
+    scope.$digest()
+    expect(element.html()).toContain('Christian Bale a 10 pommes')

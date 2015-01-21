@@ -1,4 +1,4 @@
-# Angular-Jed
+# Angular-Jed [![Build Status](https://secure.travis-ci.org/dailymotion/angular-jed.png)](http://travis-ci.org/dailymotion/angular-jed)
 
 Angular wrapper for [Jed](http://slexaxton.github.io/Jed/).
 
