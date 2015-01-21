@@ -67,6 +67,12 @@
           defaultLang = lang
           jed
 
+        # For tests
+        _setTranslations: (json) ->
+          setI18N json
+          readyDeferred.resolve()
+          jed
+
         # Load common translations
         loadCommon: (common) ->
           deferred = $q.defer()

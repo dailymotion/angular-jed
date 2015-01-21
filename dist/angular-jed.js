@@ -7,7 +7,7 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
   lang = defaultLang;
   i18n = false;
   translationsPath = false;
-  pageDatas = false;
+  pageDatas = {};
   commonDatas = {};
   cache = {};
   extend = function(object, properties) {
@@ -76,6 +76,11 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
         },
         setDefaultLang: function(lang) {
           defaultLang = lang;
+          return jed;
+        },
+        _setTranslations: function(json) {
+          setI18N(json);
+          readyDeferred.resolve();
           return jed;
         },
         loadCommon: function(common) {
@@ -158,14 +163,13 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
         restrict: 'AE',
         replace: true,
         link: function(scope, element, attr) {
-          var countExp, elementText, exp, exprFn, expression, key, lastCount, ready, render, updateElementText, watchExps, whenExp, whens, _count, _i, _j, _len, _len1, _ref, _ref1;
+          var countExp, elementText, exp, exprFn, expression, key, lastCount, render, updateElementText, watchExps, whenExp, whens, _count, _i, _j, _len, _len1, _ref, _ref1;
           countExp = attr.count;
           whenExp = attr.$attr.when && element.attr(attr.$attr.when);
           whens = scope.$eval(whenExp);
           watchExps = [];
           elementText = element.text();
           lastCount = null;
-          ready = false;
           _count = false;
           i18n.ready().then(function() {
             return render(_count);
@@ -207,7 +211,7 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
                 watchExps.push(exp);
               }
             }
-            render = function(count) {
+            render = function() {
               return updateElementText(i18n._(elementText, scope));
             };
           }

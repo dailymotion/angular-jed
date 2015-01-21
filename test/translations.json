@@ -1,0 +1,13 @@
+{
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "plural_forms": "nplurals=2; plural=(n > 1);",
+                "lang": "fr"
+            },
+            "This is a test": [null, "Ceci est un test"]
+        }
+    }
+}
