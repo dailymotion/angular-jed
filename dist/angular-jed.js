@@ -83,11 +83,6 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
           defaultLang = lang;
           return jed;
         },
-        _setTranslations: function(json) {
-          setI18N(json);
-          readyDeferred.resolve();
-          return jed;
-        },
         loadCommon: function(common) {
           var deferred;
           deferred = $q.defer();

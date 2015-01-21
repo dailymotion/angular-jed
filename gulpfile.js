@@ -9,8 +9,7 @@ gulp.task('coffee', function() {
   return gulp.src(pathCoffee)
     .pipe(plumber())
     .pipe(coffee({
-      bare: true,
-      map: true
+      bare: true
     }))
     .pipe(gulp.dest('dist'));
 });
