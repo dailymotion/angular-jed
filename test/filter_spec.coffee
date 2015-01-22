@@ -5,7 +5,7 @@ describe 'trans filter', ->
 
   simpleTrans = '<span>{{ "This is a test"|trans }}</span>'
   variableTrans = '{{ username }} is not a test'
-  pluralTrans = '<span>{{ "Nothing to see here"|trans:{plural: "A bunch of things here", count: nbr, none: "Nothing to see here"} }}</span>'
+  pluralTrans = '<span>{{ "One thing here"|trans:{plural: "A bunch of things here", count: nbr, none: "Nothing to see here"} }}</span>'
   variablePluralTrans = '<span>{{ "%user% has one apple"|trans:{plural: "%user% has %nbr% apples", count: nbr, none: "%user% has no apple", placeholders: {user: user, nbr: nbr} } }}</span>'
   singularTransController = '{{ user }} has one apple'
   pluralTransController = '{{ user }} has {{ nbr }} apples'
