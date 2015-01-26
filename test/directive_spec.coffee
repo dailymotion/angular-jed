@@ -4,7 +4,7 @@ describe 'trans directive', ->
   compile = $rootScope = null
 
   simpleTrans = '<trans>This is a test</trans>'
-  variableTrans = '<trans>{{ username }} is not a test</trans>'
+  variableTrans = variableTrans
   transAttr = '<h1 trans>This is a test</h1>'
   pluralTrans = '<trans count="nbr"
         when="{
@@ -51,7 +51,7 @@ describe 'trans directive', ->
   it 'should update the translation after a variable changed', ->
     scope = $rootScope.$new()
     scope.username = 'Michael Jackson'
-    element = compile('<trans>{{ username }} is not a test</trans>')(scope)
+    element = compile(variableTrans)(scope)
     scope.$digest()
     scope.username = 'John Travolta'
     scope.$digest()
