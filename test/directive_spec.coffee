@@ -4,7 +4,7 @@ describe 'trans directive', ->
   compile = $rootScope = null
 
   simpleTrans = '<trans>This is a test</trans>'
-  variableTrans = variableTrans
+  variableTrans = '<trans>{{ username }} is not a test</trans>'
   transAttr = '<h1 trans>This is a test</h1>'
   pluralTrans = '<trans count="nbr"
         when="{
