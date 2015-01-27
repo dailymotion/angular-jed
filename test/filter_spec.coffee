@@ -55,6 +55,10 @@ describe 'trans filter', ->
     expect(element.html()).toContain('Christian Bale a 10 pommes')
 
   it 'should work in controllers', ->
+    result = i18n._ 'This is a test'
+    expect(result).toEqual 'Ceci est un test'
+
+  it 'should work in controllers with variables', ->
     scope = $rootScope.$new()
     scope.username = 'Zakk Wylde'
     scope.nbr = 10

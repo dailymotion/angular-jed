@@ -13,3 +13,21 @@ window.translations =
         "One thing here": ["A bunch of things here", "Un truc ici", "Un tas de trucs ici"]
         "{{ user }} has no apple": [null, "{{ user }} n'a aucune pomme"]
         "{{ user }} has one apple": ["{{ user }} has {{ nbr }} apples", "{{ user }} a une pomme", "{{ user }} a {{ nbr }} pommes"]
+  'secondary-fr_FR':
+    domain: "messages"
+    locale_data:
+      messages:
+        '':
+          domain: "messages"
+          plural_forms: "nplurals=2; plural=(n > 1);"
+          lang: "fr"
+        "More translations here": [null, "Plus de traductions ici"]
+  'header-fr_FR':
+    domain: "messages"
+    locale_data:
+      messages:
+        '':
+          domain: "messages"
+          plural_forms: "nplurals=2; plural=(n > 1);"
+          lang: "fr"
+        "This is a translation from the header"  : [null, "Ceci est une traduction du header"]
