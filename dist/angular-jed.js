@@ -79,7 +79,7 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
           lang = value;
           return jed;
         },
-        getlang: function() {
+        getLang: function() {
           return lang;
         },
         setDefaultLang: function(lang) {

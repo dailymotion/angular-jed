@@ -67,7 +67,7 @@
           lang = value
           jed
 
-        getlang: ->
+        getLang: ->
           lang
 
         setDefaultLang: (lang) ->
