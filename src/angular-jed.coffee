@@ -5,7 +5,9 @@
   lang = defaultLang
   i18n = false
   translationsPath = false
-  pageDatas = {}
+  pageDatas =
+    locale_data:
+      messages: {}
   commonDatas = {}
   cache = {}
 
