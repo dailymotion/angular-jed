@@ -8,8 +8,6 @@ var gulp       = require('gulp'),
     pathCoffee = 'coffee/**/*.coffee',
     pathPo     = 'translations/**/*.po';
 
-  var spawn = require('child_process').spawn
-
 gulp.task('coffee', function() {
   return gulp.src(pathCoffee)
     .pipe(plumber())
@@ -28,14 +26,8 @@ gulp.task('po2json', function() {
     .pipe(gulp.dest('translations'));
 });
 
-gulp.task('test', function() {
-  setTimeout(function() {
-    spawn('node', ['js/test.js'], {stdio: 'inherit'})
-  }, 500)
-})
-
 gulp.task('watch', function() {
-  gulp.watch(pathCoffee, ['coffee', 'test']);
+  gulp.watch(pathCoffee, ['coffee']);
   gulp.watch(pathPo,     ['po2json']);
 });
 
